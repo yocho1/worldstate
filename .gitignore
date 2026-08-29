@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environment / secrets
+.env
+
+# Local data volumes (if bind-mounted instead of named volumes)
+neo4j_data/
+postgres_data/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
