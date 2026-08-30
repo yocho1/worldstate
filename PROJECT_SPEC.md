@@ -147,7 +147,7 @@ Consolidation Worker (background job: dedupe, decay stale facts, archive complet
 
 *(Copilot: append an entry here after each sprint, noting what was built, test results, and any deviations from this spec.)*
 
-- Sprint 0: _not started_
+- Sprint 0: ✅ **completed (2026-08-29)** — Docker Compose skeleton (`pgvector/pgvector:pg16` Postgres, `neo4j:5-community`, `redis:7-alpine`, FastAPI `api` service; every service has a healthcheck and `api` waits on healthy dependencies); FastAPI app skeleton with `/health` and a `pydantic-settings` config layer pre-wired for Postgres/Neo4j/Redis/Anthropic; pytest suite — 4 unit tests (health endpoint ×2, settings ×2), all passing locally and in CI; ruff lint clean; GitHub Actions CI with three jobs (ruff lint, pytest unit tests, and a `compose-smoke` job that builds and boots the full stack, waits for every healthcheck, then verifies `/health`); `.env.example`, `.gitignore`, README with setup instructions. Branch `sprint-0-setup` → [PR #1](https://github.com/yocho1/worldstate/pull/1) → merged after all checks passed (lint 8s, unit tests 17s, compose smoke 1m5s).
 - Sprint 1: _not started_
 - Sprint 2: _not started_
 - Sprint 3: _not started_
@@ -161,3 +161,7 @@ Consolidation Worker (background job: dedupe, decay stale facts, archive complet
 
 ### Deviations from spec
 *(log any point where implementation diverged from this document, and why)*
+
+1. **Sprint 0 — local Docker unavailable.** Docker is not installed on the development machine used for this sprint, so the acceptance criterion "`docker compose up` succeeds, all containers healthy" could not be executed locally. It is enforced instead by the CI `compose-smoke` job (GitHub Actions Ubuntu runner), which passed. Environment limitation only — no design change.
+2. **Sprint 0 — CI test split.** The `tests` CI job runs `pytest -m "not integration"`; `integration`-marked tests (needed from Sprint 2 on) will run in their own CI jobs that boot the required Docker services first. Structural decision made now to keep the harness honest, no sprint-scope divergence.
+3. **Repo hygiene.** The original prompt text was preserved as a frozen copy at `COPILOT_PROJECT_PROMPT.md`; `PROJECT_SPEC.md` (this file) is the living document that gets updated after each sprint.
